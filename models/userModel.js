@@ -20,7 +20,7 @@ const userScheme = new mongoose.Schema(
         },
         apikey: {
             type: Object
-        },
+        }, 
         lastsession:{
             type: Date
         },

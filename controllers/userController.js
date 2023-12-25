@@ -87,12 +87,11 @@ exports.Register = async (req, res) => {
         res.status(200).json({ 
             status: "success",
             recevied: {
-                authtoken: token,
-                apikey: apikey 
+                authtoken: token
             } 
         })
 
-    }catch(err){
+    }catch(err){    
         console.log(err)
         res.status(500).json({
             status: "failed",
@@ -103,8 +102,7 @@ exports.Register = async (req, res) => {
 
 exports.PatchUser = async (req, res) => {
     try{
-        sessionInfo = await jwt.verify(req.body.authtoken, process.env.CRYPTO_SECRET)
-        if(req.body.username === sessionInfo.username){
+        if(req.body.username === req.body.authtoken.username){
             const updates = {};
             for (const key in req.body){
                 if (key === "prompts")
@@ -135,8 +133,7 @@ exports.PatchUser = async (req, res) => {
 
 exports.DeleteUser = async (req, res) => {
     try{
-        sessionInfo = await jwt.verify(req.body.authtoken, process.env.CRYPTO_SECRET)
-        if(req.body.username === sessionInfo.username){
+        if(req.body.username === req.body.authtoken.username){
             await User.deleteOne({username: req.body.username})
             res.status(200).json({ 
                 status: "success",

@@ -1,7 +1,9 @@
 const Note = require("../models/noteModel");
+const jwt = require("jsonwebtoken")
 
 exports.GetNotes = async (req, res) => {
     try{
+        token = jwt.verify(req.body.authtoken, process.env.CRYPTO_SECRET)
         
 
     }catch(err){
