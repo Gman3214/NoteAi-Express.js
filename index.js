@@ -1,13 +1,24 @@
 const express = require("express");
-const usersRouter = require("./routes/users");
+const userRouter = require("./routes/userRoutes");
+const notesRouter = require("./routes/noteRoutes")
+const dotenv = require("dotenv");
+const mongoose = require("mongoose")
+dotenv.config({path: "./config.env"})
+
+
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+const DB = process.env.DATABASE.replace("<password>", process.env.DATABASE_PASSWORD)
 
-app.use("/users", usersRouter);
+mongoose.connect(DB).then( con => {
+  console.log('db connected');
+})
+
+app.use(express.json());
+
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/notes", notesRouter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
