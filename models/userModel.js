@@ -19,7 +19,7 @@ const userScheme = new mongoose.Schema(
             require: true,
         },
         apikey: {
-            type: String
+            type: Object
         },
         lastsession:{
             type: Date
@@ -34,6 +34,5 @@ const userScheme = new mongoose.Schema(
 ) 
 
 const User = mongoose.model("User", userScheme);
-
 
 module.exports = User;
