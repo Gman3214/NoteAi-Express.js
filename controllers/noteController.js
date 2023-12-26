@@ -6,14 +6,14 @@ exports.GetNotes = async (req, res) => {
         const notes = await Note.find({noteowner: req.body.authtoken.username})
         res.status(200).json({
             status: "success",
-            results: {
+            recevied: {
                 notes: notes
             }
         })
     }catch(err){ 
         res.status(500).json({
             status: "failed",
-            results: err
+            recevied: err
         })
     }
 }
@@ -21,7 +21,7 @@ exports.GetNotes = async (req, res) => {
 exports.CreateNote = async (req, res) => {
     try{
         const {title, text, color, index} = req.body;
-        result = Note.create({
+        const result = await Note.create({
             noteowner: req.body.authtoken.username,
             title,
             text,
@@ -31,13 +31,13 @@ exports.CreateNote = async (req, res) => {
 
         res.status(200).json({
             status: "success",
-            results: result
+            recevied: result
         })
 
     }catch(err){
         res.status(500).json({
             status: "failed",
-            results: err
+            recevied: err
         })
     }
 }
@@ -56,7 +56,7 @@ exports.PatchNote = async (req, res) => {
             updatedNote = await Note.findByIdAndUpdate({_id: req.body._id}, update, {new: true})
             res.status(200).json({
                 status: "success", 
-                results: {
+                recevied: {
                     note: updatedNote
                 }
             })
@@ -64,9 +64,9 @@ exports.PatchNote = async (req, res) => {
             throw "Cannot change anothers users notes"
 
     }catch(err){
-        res.status(500).json({
-            status: "failed",
-            results: err
+        res.status(500).json({  
+            status: "failed", 
+            recevied: err
         })
     }
 }
@@ -78,13 +78,13 @@ exports.DeleteNote = async (req, res) => {
             const result = await Note.deleteOne({_id: req.body._id})
             res.status(200).json({
                 status: "success",
-                results: result
+                recevied: result
             })
         }
-    }catch(err){
+    }catch(err){ 
         res.status(500).json({
             status: "failed",
-            results: err
+            recevied: err
         })
     }
 }
