@@ -3,10 +3,15 @@ const jwt = require("jsonwebtoken")
 
 exports.GetNotes = async (req, res) => {
     try{
-        token = jwt.verify(req.body.authtoken, process.env.CRYPTO_SECRET)
-        
-
-    }catch(err){
+        console.log("entered");
+        //const notes = await Note.find({noteowner: req.body.authtoken.username})
+        res.status(200).json({
+            status: "success",
+            results: {
+                //notes: notes
+            }
+        })
+    }catch(err){ 
         res.status(500).json({
             status: "failed",
             results: err

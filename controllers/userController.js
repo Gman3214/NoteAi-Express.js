@@ -92,7 +92,6 @@ exports.Register = async (req, res) => {
         })
 
     }catch(err){    
-        console.log(err)
         res.status(500).json({
             status: "failed",
             results: err
@@ -103,12 +102,19 @@ exports.Register = async (req, res) => {
 exports.PatchUser = async (req, res) => {
     try{
         if(req.body.username === req.body.authtoken.username){
+            const dbUser = await User.findOne({username: req.body.username})
             const updates = {};
             for (const key in req.body){
                 if (key === "prompts")
                     updates[key] = req.body[key];
-                else if (key === "apikey" && await bcrypt.compare(req.body.password, dbUser.password)){
-                    
+                else if (key === "apikey"){
+                    if (!req.body.password)
+                        throw "password must be supplied"
+                    if (!dbUser.password)
+                        throw "problems with the user"
+                    if (!await bcrypt.compare(req.body.password, dbUser.password))
+                        throw "bad password"
+                    updates.apikey = await EncryptApiKey(req.body.apikey, req.body.password)
                 }
 
             }
