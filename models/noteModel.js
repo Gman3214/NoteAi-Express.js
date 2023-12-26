@@ -5,13 +5,14 @@ const noteScheme = new mongoose.Schema(
         noteowner: {
             type: String,
             immutable: true,
+            require: true
         },
         title: {
-            type: String,
+            type: String
         },
         text:{
             type: String,
-            require: true,
+            require: true
         },
         color: {
             type: String

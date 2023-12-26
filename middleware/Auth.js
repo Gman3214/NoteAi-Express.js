@@ -6,6 +6,7 @@ exports.authetication = async (req, res, next) => {
         console.log("entered 1")
         if (token){
             tokenData = await jwt.verify(token[1], process.env.CRYPTO_SECRET);
+            console.log(tokenData);
             req.body.authtoken = tokenData;
             next()
         }
