@@ -123,12 +123,6 @@ exports.PatchUser = async (req, res) => {
             if (key === "prompts")
                 updates[key] = req.body[key];
             else if (key === "apikey"){
-                if (!req.body.password)
-                    throw "password must be supplied"
-                if (!dbUser.password)
-                    throw "problems with the user"
-                if (!await bcrypt.compare(req.body.password, dbUser.password))
-                    throw "bad password"
                 updates.apikey = await EncryptApiKey(req.body.apikey, process.env.API_SECRET)
             }
 
