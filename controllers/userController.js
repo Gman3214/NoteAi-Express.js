@@ -39,7 +39,7 @@ async function decryptApiKey(encryptedData, password) {
   
 
 exports.Login = async (req, res) => {
-    // try{
+    try{
         if (req.body.token !== undefined){
             tokencheck = await jwt.verify(req.body.token, process.env.CRYPTO_SECRET)
             const dbUser = await User.findOne({username: tokencheck.username})
@@ -73,12 +73,12 @@ exports.Login = async (req, res) => {
             throw "Invalid information please try again"
         }
         
-    // }catch(err){
-    //     res.status(400).json({
-    //         status: "failed",
-    //         results: err
-    //     })
-    // }
+    }catch(err){
+        res.status(400).json({
+            status: "failed",
+            results: err
+        })
+    }
 }
 
 exports.Register = async (req, res) => {
